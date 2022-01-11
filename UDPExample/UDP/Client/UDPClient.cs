@@ -25,7 +25,7 @@ namespace UDPExample
         public UdpClient udpClient = null;
         IPEndPoint remoteEP;
         bool isConnected = false;
-
+        Thread ThreadCheckServerConnection;
         public UDPClient(IPAddress ipAddress, int portNum)
         {
             QReceivePacket = new StorageOfArrayByte();
@@ -33,8 +33,12 @@ namespace UDPExample
             _portNum = portNum;
             _ipAddress = ipAddress;
 
-            Thread ThreadCheckServerConnection = new Thread(checkServerConnection);
+            ThreadCheckServerConnection = new Thread(checkServerConnection);
             ThreadCheckServerConnection.Start();
+        }
+        public void Close()
+        {
+            stopThread = true;
         }
 
         public void checkServerConnection()
@@ -132,22 +136,14 @@ namespace UDPExample
                                 udpClient.Client.Dispose();
                                 udpClient.Close();
                             }
-                            try
-                            {
-                                remoteEP = new IPEndPoint(_ipAddress, _portNum);
-                                udpClient = new UdpClient();
-                                udpClient.Connect(remoteEP);
-                                udpClient.Client.ReceiveTimeout = 10000;
-                                udpClient.Client.ReceiveBufferSize = 2000000000;
+                            remoteEP = new IPEndPoint(_ipAddress, _portNum);
+                            udpClient = new UdpClient();
+                            udpClient.Connect(remoteEP);
+                            udpClient.Client.ReceiveTimeout = 10000;
+                            udpClient.Client.ReceiveBufferSize = 2000000000;
 
-                                isConnected = true;
-                                state = 2;
-                            }
-                            catch
-                            {
-                                isConnected = false;
-                                state = 1;
-                            }
+                            isConnected = true;
+                            state = 2;
 
                         }
                         break;

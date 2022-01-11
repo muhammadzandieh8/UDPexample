@@ -65,6 +65,10 @@ namespace UDPExample
             Thread thread_sendFunc = new Thread(SendFunc);
             thread_sendFunc.Start();
         }
+        public void Close()
+        {
+            stopThread = true;
+        }
         private void ReceiveFunc()
         {
             udpServer = new UdpClient(portNum);

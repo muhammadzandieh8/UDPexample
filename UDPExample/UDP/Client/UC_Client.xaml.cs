@@ -73,25 +73,27 @@ namespace UDPExample
         }
         private void Btn_ConnectionClient_Click(object sender, RoutedEventArgs e)
         {
-            if (lbl_Connection_Client.Content.ToString() == "Connect")
+            if (txt_ip.Text != "" && txt_PortNumber.Text != "")
             {
-                //do some stuff
-                IPAddress IPAddr = IPAddress.Parse(txt_ip.Text);
-                udpClient = new UDPClient(IPAddr, Convert.ToInt32(txt_PortNumber.Text));
-                lbl_Connection_Client.Content = "DisConnect";
-                
+                if (lbl_Connection_Client.Content.ToString() == "Connect")
+                {
+                    //do some stuff
+                    IPAddress IPAddr = IPAddress.Parse(txt_ip.Text);
+                    udpClient = new UDPClient(IPAddr, Convert.ToInt32(txt_PortNumber.Text));
+                    lbl_Connection_Client.Content = "DisConnect";
+
+                }
+                else if (lbl_Connection_Client.Content.ToString() == "DisConnect")
+                {
+                    //udpClient
+                    udpClient.Close();
+                    lbl_Connection_Client.Content = "Connect";
+                }
             }
-            else if (lbl_Connection_Client.Content.ToString() == "DisConnect")
+            else
             {
-                //udpClient
-                udpClient.udpClient.Close();
-               
-                //udpClient.udpClient.Client.Dispose();
-                //udpClient.udpClient.Client.Close();
-
-                lbl_Connection_Client.Content = "Connect";
+                MessageBox.Show("Enter Params...");
             }
-
 
         }
         public static byte[] data;
@@ -99,23 +101,25 @@ namespace UDPExample
 
         private void Btn_SendClient_Click(object sender, RoutedEventArgs e)
         {
-            string tempSendData = txt_Senddata.Text;
-            char[] char_Packet = tempSendData.ToArray();
-            data = new byte[char_Packet.Length];
-            data = Encoding.ASCII.GetBytes(char_Packet);      
-            udpClient.QSendPacket.Data = data;
-            datagrid_SendClient.Dispatcher.Invoke((Action)delegate
+            if (udpClient != null)
             {
-                DataSend_List.Add(new DataModel()
+                string tempSendData = txt_Senddata.Text;
+                char[] char_Packet = tempSendData.ToArray();
+                data = new byte[char_Packet.Length];
+                data = Encoding.ASCII.GetBytes(char_Packet);
+                udpClient.QSendPacket.Data = data;
+                datagrid_SendClient.Dispatcher.Invoke((Action)delegate
                 {
-                    Id = _rownumberSend,
-                    Data = BitConverter.ToString(data),
-                    DateTime = DateTime.Now,
-                    LenghtData = data.Length,
+                    DataSend_List.Add(new DataModel()
+                    {
+                        Id = _rownumberSend,
+                        Data = BitConverter.ToString(data),
+                        DateTime = DateTime.Now,
+                        LenghtData = data.Length,
+                    });
+                    _rownumberSend++;
                 });
-                _rownumberSend++;
-            });
-
+            }
         }
     }
 }

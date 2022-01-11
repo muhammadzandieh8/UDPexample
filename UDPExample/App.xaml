@@ -12,6 +12,44 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
             </ResourceDictionary.MergedDictionaries>
+                <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem" >
+                        <Grid Name="Panel" Margin="0.2">
+
+                            
+                        <Border Name="borderg"  BorderThickness="2">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"
+                                              />
+                        </Border>
+                    </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource  SecondaryHueMidBrush}"/>
+                                <Setter TargetName="borderg" Property="BorderBrush" Value="{DynamicResource MaterialDesignPaper}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource MaterialDesignCardBackground}" />
+                                <Setter TargetName="borderg" Property="BorderBrush" Value="{DynamicResource MaterialDesignCardBackground}"/>
+                            </Trigger>  
+                            <!--<Trigger Property="IsMouseOver" Value="True" >
+                            <Setter TargetName="Panel" Property="Background" Value="{DynamicResource  SecondaryHueMidForegroundBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False" >
+                            <Setter TargetName="Panel" Property="Background" Value="{DynamicResource  MaterialDesignCardBackground}" />
+                         </Trigger>-->
+                    </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
         </ResourceDictionary>
     </Application.Resources>
 </Application>

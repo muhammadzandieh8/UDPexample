@@ -44,7 +44,7 @@
                 <Button Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Name="Btn_ConnectionServer" Click="Btn_ConnectionServer_Click">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Connection" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Label Content="Connect" />
+                        <Label Content="Connect" Name="lbl_Connection_Server" />
                     </StackPanel>
                 </Button>
 

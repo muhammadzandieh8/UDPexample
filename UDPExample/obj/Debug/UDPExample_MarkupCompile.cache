@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\m.zandieh\Desktop\UDPExample\UDPExample\obj\Debug\
+E:\Zandieh\UDPexample\udpexample\UDPExample\obj\Debug\
 UDPExample
 none
 false
 DEBUG;TRACE
-C:\Users\m.zandieh\Desktop\UDPExample\UDPExample\App.xaml
-3-1223985767
+E:\Zandieh\UDPexample\udpexample\UDPExample\App.xaml
+3-2043931102
 
-10354474249
-15733524933
+10607869672
+15907260951
 MainWindow.xaml;UDP\Client\UC_Client.xaml;UDP\Server\UC_Server.xaml;
 
 False

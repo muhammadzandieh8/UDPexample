@@ -44,45 +44,65 @@ namespace UDPExample
         public void UpdateUI()
         {
             while (true)
-            {   
-            #region Recive
-            if (udpServer != null)
             {
-                if (udpServer.QReceivePacket.DataCount > 0)
+                #region Recive
+                if (udpServer != null)
                 {
-                    Receivedata = new byte[udpServer.QReceivePacket.Data.Length];
-                    Receivedata = udpServer.QReceivePacket.Data;
-                    datagrid_ReciveServer.Dispatcher.Invoke((Action)delegate
+                    if (udpServer.QReceivePacket.DataCount > 0)
                     {
-                        DataRec_List.Add(new DataModel()
+                        Receivedata = new byte[udpServer.QReceivePacket.Data.Length];
+                        Receivedata = udpServer.QReceivePacket.Data;
+                        datagrid_ReciveServer.Dispatcher.Invoke((Action)delegate
                         {
-                            Id = _rownumberserver,
-                            Data = BitConverter.ToString(Receivedata),
-                            DateTime = DateTime.Now,
-                            LenghtData = Receivedata.Length,
+                            DataRec_List.Add(new DataModel()
+                            {
+                                Id = _rownumberserver,
+                                Data = BitConverter.ToString(Receivedata),
+                                DateTime = DateTime.Now,
+                                LenghtData = Receivedata.Length,
+                            });
+                            _rownumberserver++;
                         });
-                        _rownumberserver++;
-                    });
+                    }
+
+
                 }
-
-
-            }
-            else
-            {
-                Thread.Sleep(100);
-            }
+                else
+                {
+                    Thread.Sleep(100);
+                }
                 #endregion
             }
         }
         public int _rownumberSend = 0;
         private void Btn_ConnectionServer_Click(object sender, RoutedEventArgs e)
         {
-            IPAddress IPAddr = IPAddress.Parse(txt_ip.Text);
-            udpServer = new UDPServer(IPAddr, Convert.ToInt32(txt_PortNumber.Text));
+            if (txt_ip.Text != "" && txt_PortNumber.Text != "")
+            {
+
+                if (lbl_Connection_Server.Content.ToString() == "Connect")
+                {
+                    IPAddress IPAddr = IPAddress.Parse(txt_ip.Text);
+                    udpServer = new UDPServer(IPAddr, Convert.ToInt32(txt_PortNumber.Text));
+                    lbl_Connection_Server.Content = "DisConnect";
+
+                }
+                else if (lbl_Connection_Server.Content.ToString() == "DisConnect")
+                {
+                    udpServer.Close();
+                    lbl_Connection_Server.Content = "Connect";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Enter Params...");
+            }
         }
         public static byte[] data;
         private void Btn_SendServer_Click(object sender, RoutedEventArgs e)
         {
+            if (udpServer != null)
+            {
             string tempSendData = txt_Senddata.Text;
             char[] char_Packet = tempSendData.ToArray();
             data = new byte[char_Packet.Length];
@@ -98,7 +118,8 @@ namespace UDPExample
                 });
                 _rownumberSend++;
             });
-            udpServer.QSendPacket.Data = data;
+                udpServer.QSendPacket.Data = data;
+            }
         }
     }
 }
